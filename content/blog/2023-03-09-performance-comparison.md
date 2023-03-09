@@ -100,7 +100,7 @@ project](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison).
 For Zenoh, the test
 [programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/zenoh)
 use [version 0.7.0-rc](https://github.com/eclipse-zenoh/zenoh/tree/0.7.0-rc)
-and the Zenoh router \`zenohd\` can be built by following this
+and the Zenoh router `zenohd` can be built by following this
 [guide](https://github.com/eclipse-zenoh/zenoh#how-to-install-it). Its
 reliability was set to "reliable" and the congestion control option was set to
 \"block\" on the publisher side. For the latency measurements, its reliability
@@ -145,7 +145,7 @@ a set of messages and calculates the average message rate (msg/s). The
 same procedure is applied to Zenoh, Cyclone DDS (briefly represented as
 DDS below), MQTT, and Kafka. The bitrates (bit/s) were also calculated
 based on the message rate and the payload size. In addition, the
-\`iperf\` utility was also used to measure the ideal data rate from the
+`iperf` utility was also used to measure the ideal data rate from the
 application layer between two peers. Various payload sizes from 8 bytes
 to 512 MB were tested to see the trend of the throughput. Note that in
 the charts below, the Y-axis is shown in the log scale for both the
@@ -163,8 +163,8 @@ paragraphs for discussion purposes.
 Fig. 4 shows the results for the single-machine scenario. From the
 figure, we can see that Zenoh can reach up to more than 4M msg/s for
 small payload sizes. Among the two lines for Zenoh, the peer mode
-(indicated by \`Zenoh-p2p\`) provides better results than that of the
-client mode (marked by \`Zenoh-brokered\`), because the data
+(indicated by `Zenoh-p2p`) provides better results than that of the
+client mode (marked by `Zenoh-brokered`), because the data
 transmission doesn't need to be relayed by the Zenoh router. DDS,
 although slower, is relatively close to Zenoh and can still reach up to
 2M msg/s. Note that in the charts, the Y-axis is in the log scale.
@@ -189,8 +189,8 @@ on extending the message size over 1 MB.
 
 Fig. 5 provides the throughput in bits-per-second (bit/s or bps). It
 shows that Zenoh starts to saturate closer to the ideal throughput
-measured by \`iperf\` (at 76 Gpbs) for the payload size equal to or
-larger than 4 KB. The peer mode \`Zenoh-p2p\` can reach up to 67 Gbps.
+measured by `iperf` (at 76 Gpbs) for the payload size equal to or
+larger than 4 KB. The peer mode `Zenoh-p2p` can reach up to 67 Gbps.
 For DDS, the throughput is the highest at 26 Gpbs. Kafka appears to
 saturate at about 3\~4 Gbps when the payload size is larger than 16 KB.
 For MQTT, it reaches up to 8 Gbps at the payload size of 32 KB. The
@@ -224,9 +224,9 @@ in Fig. 6 and Fig. 7. We will mainly focus on the bitrate results here.
     alt="Throughput data in bit/s for the multiple-machine scenario"
     width="100%" >}}
 
-In the figure, \`iperf\` shows that the ideal throughput of the target
+In the figure, `iperf` shows that the ideal throughput of the target
 network is 44 Gpbs. The maximal bitrate is about 34 Gbps for
-\`Zenoh-brokered\` and 51 Gbps for \`Zenoh-p2p\`, respectively. For
+`Zenoh-brokered` and 51 Gbps for `Zenoh-p2p`, respectively. For
 Cyclone DDS, its throughput ranking remains at number three in the
 charts at 14 Gbps. On the other hand, MQTT\'s bitrates can reach up to 9
 Gbps at the payload size of 32 KB and then goes down, similar to the
@@ -240,14 +240,14 @@ MQTT by several to tens of performance improvements.
 
 ## Latency Comparison
 
-In the latency tests, the \`ping\` program publishes the ping message,
-and the \`pong\` program replies with the same message upon receiving
+In the latency tests, the `ping` program publishes the ping message,
+and the `pong` program replies with the same message upon receiving
 the ping. The tested payload size is fixed at 64 bytes (aligned with
 ICMP echo/reply), and the testing is performed in a back-to-back manner
 to reduce the impact of the process scheduling and the context switches
 induced by the underlying operating system. The latency is defined as
 half of the average round-trip time covering the ping and pong
-operations. Tab. 2 shows the results of the tests. The Linux \`ping\`
+operations. Tab. 2 shows the results of the tests. The Linux `ping`
 utility was included as a baseline of the minimum latency that can be
 achieved.
 
@@ -266,26 +266,26 @@ Tab. 2 Latency data in microseconds for the single-machine scenario
 {{< /table >}}
 
 For the single-machine environment, the ideal latency value obtained
-from \`ping\` is 1 µs. MQTT and Kafka have a latency of 73 µs and 27 µs,
-respectively. As for Zenoh, while the client mode \`Zenoh-brokered\` has
+from `ping` is 1 µs. MQTT and Kafka have a latency of 73 µs and 27 µs,
+respectively. As for Zenoh, while the client mode `Zenoh-brokered` has
 a latency of 21 µs, mainly due to routing data through a middleman,
-\`Zenoh-p2p\` shows that it can be further reduced to 10 µs. For Cyclone
+`Zenoh-p2p` shows that it can be further reduced to 10 µs. For Cyclone
 DDS, the latency is even lower than Zenoh, achieving down to 8 µs. The
 reason is that it's using UDP Multicast. Although Zenoh currently hasn't
 implemented the same data transport yet, the microcontroller
 implementation of Zenoh -- Zenoh-pico -- has already realized this. As a
 result, we've also tested its latency and the result is 5 µs, as
-indicated by \`Zenoh-pico\`, which is even lower than that of Cyclone
+indicated by `Zenoh-pico`, which is even lower than that of Cyclone
 DDS, mainly because the Zenoh protocol and its implementation can be
 more lightweight and efficient than the OMG DDSI-RTPS protocol
 (implemented by all DDS-compliant implementations).
 
 For the multiple-machine scenario over a real network with 100 Gb
-Ethernet, the latency for the \`Zenoh-brokered\` is about 41 µs, and the
-number of \`Zenoh-p2p\` for the peer mode is 16 µs, which is lower than
+Ethernet, the latency for the `Zenoh-brokered` is about 41 µs, and the
+number of `Zenoh-p2p` for the peer mode is 16 µs, which is lower than
 that for Kafka at 84 µs, MQTT at 45 µs, and Cyclone DDS at 38 µs. For
-\`Zenoh-pico\`, it remains the best one at 13 µs, closest to the
-baseline obtained by the \`ping\` utility at 7 µs.
+`Zenoh-pico`, it remains the best one at 13 µs, closest to the
+baseline obtained by the `ping` utility at 7 µs.
 
 In general, the latency of Zenoh is low. Zenoh with the default
 peer-to-peer mode has the shortest latency compared to MQTT and Kafka
@@ -299,7 +299,7 @@ software.
 In this blog, we compared the performance of Zenoh, MQTT, Kafka, and
 DDS. Zenoh consistently outperformed MQTT and Kafka. The results show
 that Zenoh is relatively closer to the ideal numbers obtained by the
-classic baseline tools \`iperf\` and \`ping\` for throughput and latency
+classic baseline tools `iperf` and `ping` for throughput and latency
 evaluation from the application layer, thanks to the low overhead design
 and multiple optimization techniques embedded in Zenoh's implementation.
 
