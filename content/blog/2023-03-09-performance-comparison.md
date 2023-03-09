@@ -16,8 +16,8 @@ compared Zenoh with other technologies. Now that time has come! In this blog
 post, we present an evaluation conducted by the [National Taiwan
 University](https://www.ntu.edu.tw/english/) with our support where Zenoh\'s
 performance is compared with MQTT, Kafka, and DDS. A longer version of this
-blog is available on \<link-to-arXiv.org\>, which provides a detailed
-description and analysis for further study.
+blog will be available online to provide a detailed description and analysis
+for further study.
 
 ## Communication models
 
