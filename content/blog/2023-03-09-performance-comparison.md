@@ -251,19 +251,20 @@ operations. Tab. 2 shows the results of the tests. The Linux `ping`
 utility was included as a baseline of the minimum latency that can be
 achieved.
 
-Tab. 2 Latency data in microseconds for the single-machine scenario
+Tab. 2 Latency data in µs (microseconds) for the single-machine and multiple-machine scenario
 
-{{< table "table table-striped table-bordered" >}}
-| Target         | Single-machine Latency(µs) | Multiple-machine Latency(µs) |
-|----------------|----------------------------|------------------------------|
-| Kafka          | 73                         | 84                           |
-| MQTT           | 27                         | 45                           |
-| Cyclone DDS    | 8                          | 38                           |
-| Zenoh-brokered | 21                         | 41                           |
-| Zenoh-p2p      | 10                         | 16                           |
-| Zenoh-pico     | 5                          | 13                           |
-| ping           | 1                          | 7                            |
+{{< table "table table-striped table-bordered w-auto" >}}
+| Target           | Single-machine               | Multiple-machine               |
+| ---------------- | ---------------------------- | ------------------------------ |
+| Kafka            | 73                           | 84                             |
+| MQTT             | 27                           | 45                             |
+| Cyclone DDS      | 8                            | 38                             |
+| Zenoh-brokered   | 21                           | 41                             |
+| Zenoh-p2p        | 10                           | 16                             |
+| Zenoh-pico       | 5                            | 13                             |
+| ping             | 1                            | 7                              |
 {{< /table >}}
+
 
 For the single-machine environment, the ideal latency value obtained
 from `ping` is 1 µs. MQTT and Kafka have a latency of 73 µs and 27 µs,
