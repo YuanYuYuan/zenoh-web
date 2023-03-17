@@ -150,8 +150,9 @@ based on the message rate and the payload size. In addition, the
 application layer between two peers. Various payload sizes from 8 bytes
 to 512 MB were tested to see the trend of the throughput. Note that in
 the charts below, the Y-axis is shown in the log scale for both the
-message rate and bitrate. The full dataset and raw data can be found in
-the appendix. Some of the numbers will be reported in the following
+message rate and bitrate. The full dataset and raw data can be found 
+[here](https://github.com/YuanYuYuan/zenoh-tests/tree/blog/comparison#numeric-details-in-table). 
+Some of the numbers will be reported in the following
 paragraphs for discussion purposes.
 
 {{< figure-inline
@@ -192,7 +193,7 @@ Fig. 5 provides the throughput in bits-per-second (bit/s or bps). It
 shows that Zenoh starts to saturate closer to the ideal throughput
 measured by `iperf` (at 76 Gpbs) for the payload size equal to or
 larger than 4 KB. The peer mode `Zenoh-p2p` can reach up to 67 Gbps.
-For DDS, the throughput is the highest at 26 Gpbs. Kafka appears to
+For DDS, the highest throughput achieved is 26 Gpbs. Kafka appears to
 saturate at about 3\~4 Gbps when the payload size is larger than 16 KB.
 For MQTT, it reaches up to 8 Gbps at the payload size of 32 KB. The
 performance degradation phenomenon of MQTT appeared in the tests
@@ -205,7 +206,7 @@ DDS, Kafka, and MQTT, Zenoh peer mode achieves \~2x higher performance
 compared to that of DDS and 65x and 130x for Kafka and MQTT at the
 payload size of 8 bytes. Zenoh achieves peak performances at 8KB,
 achieving more than 4x throughput than DDS, 22x than Kafka, and 33x than
-MQTT. Finally, for a payload of 32KB Zenoh achieves more than 2x higher
+MQTT. Finally, for a payload of 32 KB, Zenoh achieves more than 2x higher
 throughput than DDS, 6x than MQTT, and 12x than Kafka.
 
 The throughput across multiple machines over a 100 Gb Ethernet is shown
