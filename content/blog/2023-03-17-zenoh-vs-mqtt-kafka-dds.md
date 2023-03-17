@@ -1,9 +1,9 @@
 ---
 title: " Performance Comparison of Zenoh with MQTT, Kafka, and DDS"
-date: 2023-03-09
+date: 2023-03-17
 menu: "blog"
-weight: 20230309
-description: "9 March 2023 -- Taipei."
+weight: 20230317
+description: "17 March 2023 -- Taipei."
 draft: false
 ---
 
@@ -15,7 +15,7 @@ already addressed Zenoh\'s performance in some older posts (see
 compared Zenoh with other technologies. Now that time has come! In this blog
 post, we present an evaluation conducted by the [National Taiwan
 University](https://www.ntu.edu.tw/english/) with our support where Zenoh\'s
-performance is compared with MQTT, Kafka, and DDS. A longer version of this
+performance is compared with MQTT, Kafka, and DDS. A comprehensive version of this
 blog is available on [arXiv](https://arxiv.org/abs/2303.09419) to provide a detailed description and analysis
 for further study.
 
@@ -25,11 +25,11 @@ MQTT and Kafka adopt a brokered communication model where every message must go
 through a broker. Differently, DDS adopts a peer-to-peer communication model
 where messages are directly exchanged between publishers and subscribers
 without any middleman. Zenoh supports both the brokered and the peer-to-peer
-communication models, as well as a routed infrastructure mode, illustrated in
-the following Fig. 1 with mixed topology. In the figure, Mesh and Clique are
-peer-to-peer models. See the various [deployment
+communication models, as well as a routed infrastructure mode. 
+Fig. 1 illustrates the models with mixed topology, in which 
+Mesh and Clique are peer-to-peer models. See the various [deployment
 models](https://zenoh.io/docs/getting-started/deployment/) for more insights.
-For a fair comparison with MQTT, Kafka, and DDS both brokered and peer-to-peer
+For a fair comparison with MQTT, Kafka, and DDS, both brokered and peer-to-peer
 modes are used in Zenoh.
 
 {{< figure-inline
@@ -42,7 +42,7 @@ modes are used in Zenoh.
 
 ## Tested Performance Indicators
 
-For this performance evaluation we were interested in evaluating two key
+For this performance evaluation, we were interested in evaluating two key
 performance indicators, namely throughput and latency. Fig. 2 shows the
 communication diagram for the throughput measurements. For the
 comparison between Zenoh, MQTT, and Kafka, all the data flows through
@@ -82,8 +82,9 @@ configuration for each of the used machines.
 Tab. 1 The configuration of the testing machines
 
 {{< table "table table-striped table-bordered" >}}
-| OS      | Ubuntu 20.04.3 LTS                                                                     |
+| Type    | Specification                                                                          |
 |---------|----------------------------------------------------------------------------------------|
+| OS      | Ubuntu 20.04.3 LTS                                                                     |
 | CPU     | AMD Ryzen 7 5800X running at a fixed frequency of 4.0 GHz 8-Core Processor, 16 threads |
 | RAM     | 32 GiB DDR4 3200MHz                                                                    |
 | Network | 100Gb Ethernet (for the multiple-machine scenario)                                     |
@@ -97,17 +98,17 @@ All the benchmark programs can be found under the [Zenoh performance
 test
 project](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison).
 
-For Zenoh, the test
-[programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/zenoh)
+For Zenoh, the 
+[test programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/zenoh)
 use [version 0.7.0-rc](https://github.com/eclipse-zenoh/zenoh/tree/0.7.0-rc)
 and the Zenoh router `zenohd` can be built by following this
 [guide](https://github.com/eclipse-zenoh/zenoh#how-to-install-it). Its
 reliability was set to "reliable" and the congestion control option was set to
-\"block\" on the publisher side. For the latency measurements, its reliability
-was set to "best effort" to align with the behavior of Kafka and MQTT.
+"Block" on the publisher side. For the latency measurements, its reliability
+was set to "BestEffort" to align with the behavior of Kafka and MQTT.
 
-For MQTT, the test
-[programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/mqtt)
+For MQTT, the 
+[test programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/mqtt)
 use [Eclipse Mosquitto version 2.0.15](https://github.com/eclipse/mosquitto/archive/refs/tags/v2.0.15.tar.gz).
 The MQTT clients were implemented with the [Eclipse Paho MQTT C client
 library
@@ -115,8 +116,8 @@ v.1.3.11](https://github.com/eclipse/paho.mqtt.c/releases/tag/v1.3.11).
 For all MQTT clients, the communication QoS level was set to 0 to
 achieve its best performance.
 
-For Kafka, the test
-[programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/kafka)
+For Kafka, the
+[test programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/kafka)
 use the [official broker
 3.2.1](https://dlcdn.apache.org/kafka/3.2.1/kafka_2.13-3.2.1.tgz) and the
 [rdkafka client library
@@ -127,14 +128,14 @@ and real experiments in order to get better results: linger.ms=0 and
 batch.size=400KB for throughput, 1 for latency; compression.type=none, acks=0
 and fetch.min.bytes=1 (only for latency tests).
 
-For DDS, the test
-[programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/cyclonedds)
+For DDS, the
+[test programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/cyclonedds)
 use [Eclipse Cyclone
 DDS](https://github.com/eclipse-cyclonedds/cyclonedds) as
 the target implementation. They are based on the [official DDS
 examples](https://github.com/eclipse-cyclonedds/cyclonedds/tree/master/examples/roundtrip).
 For the reliability QoS, RELIABLE was employed. For the history QoS,
-while KEEP_LAST was used in latency tests, KEEP_ALL was selected for
+while KEEP\_LAST was used in latency tests, KEEP\_ALL was selected for
 throughput tests.
 
 ## Throughput Comparison
