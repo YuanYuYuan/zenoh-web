@@ -239,7 +239,7 @@ network is 44 Gpbs. The maximal bitrate is about 34 Gbps for
 Cyclone DDS, its throughput ranking remains at number three in the
 charts at 14 Gbps. On the other hand, MQTT\'s bitrates can reach up to \~9
 Gbps at the payload size of 32 KB and then goes down, similar to the
-single-machine scenario. For Kafka, its best bitrate number is \~5 Gbps,
+single-machine scenario. For Kafka, its best bitrate number is 5 Gbps,
 also at the payload size of 32 KB.
 
 As a summary of the comparison, the results observed from the
