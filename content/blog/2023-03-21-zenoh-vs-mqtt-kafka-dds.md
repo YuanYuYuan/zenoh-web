@@ -122,7 +122,8 @@ achieve its best performance.
 For Kafka, the
 [test programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/kafka)
 use the [official broker
-3.2.1](https://dlcdn.apache.org/kafka/3.2.1/kafka_2.13-3.2.1.tgz) and the
+3.2.1](https://archive.apache.org/dist/kafka/3.2.1/kafka_2.13-3.2.1.tgz) and the
+
 [rdkafka client library
 0.28.0](https://github.com/fede1024/rust-rdkafka/tree/v0.28.0). The following
 parameters were chosen according to the suggestions from the [online
