@@ -17,7 +17,11 @@ post, we present an evaluation conducted by the [National Taiwan
 University](https://www.ntu.edu.tw/english/) with our support where Zenoh\'s
 performance is compared with MQTT, Kafka, and DDS. A comprehensive version of this
 blog is available on [arXiv](https://arxiv.org/abs/2303.09419) to provide a detailed description and analysis
-for further study.
+for further study [^median_vs_mean].
+
+[^median_vs_mean]: Instead of displaying averaged numbers (with standard deviations)
+    in the [arXiv](https://arxiv.org/abs/2303.09419) version,
+    median values are used in this blog to increase the fairness of the comparison.
 
 ## Communication models
 
@@ -95,8 +99,7 @@ Kafka. Their versions and settings are described below. The procedures
 were designed according to the suggestions from [the guide for accurate
 measurement](https://easyperf.net/blog/2019/08/02/Perf-measurement-environment-on-Linux).
 All the benchmark programs can be found under the [Zenoh performance
-test
-project](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison).
+test project](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison).
 
 For Zenoh, the
 [test programs](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison/zenoh)
@@ -142,8 +145,10 @@ throughput tests.
 
 In the throughput tests, the publisher program publishes messages
 back-to-back. The consumer program subscribed to the same topic collects
-a set of messages and calculates the median message rate (msg/s).
-To remove the outliers, we exclude the samples beyond 1st and 99th percentiles.
+a set of messages and calculates the message rate (msg/s).
+The procedure will be repeated multiple times for each payload size and
+the median number is selected from the samples as the result [^median_vs_mean],
+in which outliers are excluded from the samples beyond 1st and 99th percentiles.
 The same procedure is applied to Zenoh, Cyclone DDS (briefly represented as
 DDS below), MQTT, and Kafka. The bitrates (bit/s) were also calculated
 based on the message rate and the payload size. In addition, the
@@ -151,7 +156,7 @@ based on the message rate and the payload size. In addition, the
 application layer between two peers. Various payload sizes from 8 bytes
 to 512 MB were tested to see the trend of the throughput. Note that in
 the charts below, the Y-axis is shown in the log scale for both the
-message rate and bitrate. The full dataset and raw data can be found
+message rate and bitrate. The statistics data can be found
 [here](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison#numerical-results).
 Some of the numbers will be reported in the following
 paragraphs for discussion purposes.
@@ -172,10 +177,10 @@ transmission doesn't need to be relayed by the Zenoh router. DDS,
 although slower, is relatively close to Zenoh and can still reach up to
 2M msg/s. Note that in the charts, the Y-axis is in the log scale.
 
-As for Kafka, it maintains a stable message rate between 53K to 62K
+As for Kafka, it maintains a stable message rate between 56K to 63K
 msg/s for payload sizes less than 2 KB and starts to decrease until the
 last data that was successfully measured at the payload size of 512 KB.
-On the other hand, MQTT has a slightly lower throughput between 32K to
+On the other hand, MQTT has a slightly lower throughput between 33K to
 38K msg/s before 32 KB of the payload size. However, it then starts to
 reduce drastically and shows the worst performance number, although it
 supports larger payload sizes compared to Kafka. However, Kafka in
@@ -191,12 +196,12 @@ on extending the message size over 1 MB.
     width="100%" >}}
 
 Fig. 5 provides the throughput in bits-per-second (bit/s or bps). It
-shows that Zenoh starts to saturate closer to the ideal throughput
+shows that Zenoh starts to saturate toward the ideal throughput
 measured by `iperf` (at 76 Gpbs) for the payload size equal to or
-larger than 8 KB. The peer mode `Zenoh P2P` can reach up to 67 Gbps.
-For DDS, the highest throughput achieved is 26 Gpbs. Kafka appears to
+larger than 4 KB. The peer mode `Zenoh P2P` can reach up to 67 Gbps.
+For DDS, the highest throughput achieved is about 26 Gpbs. Kafka appears to
 saturate at about 4\~5 Gbps when the payload size is larger than 16 KB.
-For MQTT, it reaches up to 9 Gbps at the payload size of 32 KB. The
+For MQTT, it reaches up to \~9 Gbps at the payload size of 32 KB. The
 performance degradation phenomenon of MQTT appeared in the tests
 consistently. The reason behind this is still unknown and will be worth
 further study in the future.
@@ -206,9 +211,9 @@ throughput comparison, considering the best numbers obtained from Zenoh,
 DDS, Kafka, and MQTT, Zenoh peer mode achieves \~2x higher performance
 compared to that of DDS and 65x and 130x for Kafka and MQTT at the
 payload size of 8 bytes. Zenoh achieves peak performances at 8KB,
-achieving more than 4x throughput than DDS, 22x than Kafka, and 33x than
+achieving more than 4x throughput than DDS, 24x than Kafka, and 27x than
 MQTT. Finally, for a payload of 32 KB, Zenoh achieves more than 2x higher
-throughput than DDS, 6x than MQTT, and 12x than Kafka.
+throughput than DDS, 5x than MQTT, and 10x than Kafka.
 
 The throughput across multiple machines over a 100 Gb Ethernet is shown
 in Fig. 6 and Fig. 7. We will mainly focus on the bitrate results here.
@@ -229,11 +234,11 @@ in Fig. 6 and Fig. 7. We will mainly focus on the bitrate results here.
 
 In the figure, `iperf` shows that the ideal throughput of the target
 network is 44 Gpbs. The maximal bitrate is about 34 Gbps for
-`Zenoh brokered` and 51 Gbps for `Zenoh P2P`, respectively. For
+`Zenoh brokered` and 50 Gbps for `Zenoh P2P`, respectively. For
 Cyclone DDS, its throughput ranking remains at number three in the
-charts at 14 Gbps. On the other hand, MQTT\'s bitrates can reach up to 9
+charts at 14 Gbps. On the other hand, MQTT\'s bitrates can reach up to \~9
 Gbps at the payload size of 32 KB and then goes down, similar to the
-single-machine scenario. For Kafka, its best bitrate number is 5 Gbps,
+single-machine scenario. For Kafka, its best bitrate number is \~5 Gbps,
 also at the payload size of 32 KB.
 
 As a summary of the comparison, the results observed from the
@@ -250,7 +255,10 @@ ICMP echo/reply), and the testing is performed in a back-to-back manner
 to reduce the impact of the process scheduling and the context switches
 induced by the underlying operating system. The latency is defined as
 half of the median round-trip time covering the ping and pong
-operations. Similarly, we remove the outliers beyond 1st and 99th percentiles.
+operations [^median_vs_mean].
+Similarly, we remove the outliers beyond 1st and 99th percentiles.
+The statistics data can also be found
+[here](https://github.com/ZettaScaleLabs/zenoh-perf/tree/master/comparison#numerical-results).
 Tab. 2 shows the results of the tests. The Linux `ping`
 utility was included as a baseline of the minimum latency that can be
 achieved.
@@ -331,9 +339,9 @@ seamlessly support the cloud-to-edge and to-things continuum.
 
 [**William Liang**<sup>*</sup>](https://www.linkedin.com/in/wyliang/), [**Yuyuan Yuan**<sup>+</sup>](https://github.com/YuanYuYuan), and [**Jerry Lin**<sup>+</sup>](https://github.com/jerry73204)
 
-<sup>*</sup> Zenoh Taiwan Team, Zettascale
+<sup>*</sup> Zenoh Taiwan Team, [Zettascale](https://www.zettascale.tech/)
 
-<sup>+</sup> Zenoh Contributors, National Taiwan University
+<sup>+</sup> Zenoh Contributors, [National Taiwan University](https://csie.ntu.edu.tw/)
 
 ## Acknowledgments
 
