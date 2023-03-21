@@ -191,7 +191,7 @@ on extending the message size over 1 MB.
 
 Fig. 5 provides the throughput in bits-per-second (bit/s or bps). It
 shows that Zenoh starts to saturate closer to the ideal throughput
-measured by `iperf` (at 75 Gpbs) for the payload size equal to or
+measured by `iperf` (at 76 Gpbs) for the payload size equal to or
 larger than 8 KB. The peer mode `Zenoh P2P` can reach up to 67 Gbps.
 For DDS, the highest throughput achieved is 26 Gpbs. Kafka appears to
 saturate at about 4\~5 Gbps when the payload size is larger than 16 KB.
