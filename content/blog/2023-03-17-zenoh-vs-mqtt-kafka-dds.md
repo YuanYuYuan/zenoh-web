@@ -142,8 +142,9 @@ throughput tests.
 
 In the throughput tests, the publisher program publishes messages
 back-to-back. The consumer program subscribed to the same topic collects
-a set of messages and calculates the median message rate (msg/s). The
-same procedure is applied to Zenoh, Cyclone DDS (briefly represented as
+a set of messages and calculates the median message rate (msg/s).
+To remove the outliers, we exclude the samples beyond 1st and 99th percentiles.
+The same procedure is applied to Zenoh, Cyclone DDS (briefly represented as
 DDS below), MQTT, and Kafka. The bitrates (bit/s) were also calculated
 based on the message rate and the payload size. In addition, the
 `iperf` utility was also used to measure the ideal data rate from the
@@ -249,7 +250,8 @@ ICMP echo/reply), and the testing is performed in a back-to-back manner
 to reduce the impact of the process scheduling and the context switches
 induced by the underlying operating system. The latency is defined as
 half of the median round-trip time covering the ping and pong
-operations. Tab. 2 shows the results of the tests. The Linux `ping`
+operations. Similarly, we remove the outliers beyond 1st and 99th percentiles.
+Tab. 2 shows the results of the tests. The Linux `ping`
 utility was included as a baseline of the minimum latency that can be
 achieved.
 
